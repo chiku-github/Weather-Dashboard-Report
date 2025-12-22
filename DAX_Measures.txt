@@ -1,0 +1,136 @@
+AQI Suggestion = 
+VAR AQI = SELECTEDVALUE('Current'[current.air_quality.pm10])
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "Air is clean and healthy",
+        AQI <=100, "Acceptable air quality, stay active",
+        AQI <=150, "Senstive groups should reduce outdoor time",
+        AQI <=200, "Limit prologned outdoor exertion",
+        AQI <=300, "Avoid outdoor activity if possible",
+        "Stay indoors, water mask if outside"
+      )
+
+AQI_StatusAQI Status text = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.pm10]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "Good",
+        AQI <=100, "Moderate",
+        AQI <=150, "Unhealthy for Senstive",
+        AQI <=200, "Unhealthy",
+        AQI <=300, "Very Unhealthy",
+        "Hazardous"
+      )
+
+CO = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.co]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+current_temp_c = SUM('Current'[current.temp_c])&" °C"
+
+For_temp_c = AVERAGE(Forecast_Day[forecast.forecastday.day.avgtemp_c])&" °C"
+
+Last_updated_Date_current = 
+"Last Updated, " &
+FORMAT(
+    FIRSTNONBLANK('Current'[current.last_updated], 0),
+    "dd MMM"
+)
+
+Left_value_PM10 = [Maxvalue]-SUM('Current'[current.air_quality.pm10])
+
+Maxvalue = 300
+
+NO 2 = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.no2]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+O3 = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.o3]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+PM 10 = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.pm10]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+PM 2.5 = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.pm2_5]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+SO2 = 
+VAR AQI = ROUND(SELECTEDVALUE('Current'[current.air_quality.so2]),0)
+RETURN
+      SWITCH(
+        TRUE(),
+        AQI <=50, "#43d946",----------Good (Green)
+        AQI <=100, "#fff570",--------Moderate (Yellow)
+        AQI <=150, "#ff9800",--------Poor (Orange)
+        AQI <=200, "#d99343",--------Unhealthy(Red)
+        AQI <=300, "#ff5b0f",--------Hazardus(Dark Maroon)
+        "#d95243"
+      )
+
+Wind_Speed = SUM('Current'[current.wind_kph])&" Kph"
+
+CleanDate = DATEVALUE(Forecast_Day[forecast.forecastday.date])
+
+Day_Name = FORMAT(Forecast_Day[CleanDate], "dddd")
+
+Day_Name 1 = 
+FORMAT(
+    DATEVALUE(Forecast_Day[forecast.forecastday.date]),
+    "dddd"
+)
+
+Sunrise_Date = FORMAT(Forecast_Day[forecast.forecastday.astro.sunrise],"hh:AM/PM")
+
+Sunset_Date = FORMAT(Forecast_Day[forecast.forecastday.astro.sunset],"hh:AM/PM")
+
+
